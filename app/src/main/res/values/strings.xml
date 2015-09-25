@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">ShapiroProjectile</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="angle">Angle</string>
+    <string name="velocity">Velocity</string>
+    <string name="time">Time</string>
+    <string name="calculate">Calculate</string>
     <string name="action_settings">Settings</string>
 </resources>
