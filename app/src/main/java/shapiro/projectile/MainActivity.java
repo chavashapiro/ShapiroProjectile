@@ -7,18 +7,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView text1;
-    private EditText edit1;
-    private TextView text2;
-    private EditText edit2;
-    private TextView text3;
-    private EditText edit3;
-    private Button button1;
-    private TextView text4;
+    private ImageView projectileImage;
+    private TextView textAngle;
+    private EditText editAngle;
+    private TextView textVelocity;
+    private EditText editVelocity;
+    private TextView textTime;
+    private EditText editTime;
+    private Button calculate;
+    private TextView answer;
 
     /**@Override
     protected void onResume() {
@@ -30,25 +34,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        text1 = (TextView) findViewById(R.id.text1);
-        text2 = (TextView) findViewById(R.id.text2);
-        text3 = (TextView) findViewById(R.id.text3);
-        text4 = (TextView) findViewById(R.id.text4);
-        edit1 = (EditText) findViewById(R.id.edit1);
-        edit2 = (EditText) findViewById(R.id.edit2);
-        edit3 = (EditText) findViewById(R.id.edit3);
-        button1 = (Button) findViewById(R.id.button1);
+        projectileImage = (ImageView) findViewById(R.id.projectile_image);
+        Picasso.with(this).load("http://www.splung.com/kinematics/images/projectiles/motorbike-parabola.jpg").into(projectileImage);
 
-        button1.setOnClickListener( new View.OnClickListener () {
+        textAngle = (TextView) findViewById(R.id.text_angle);
+        textVelocity = (TextView) findViewById(R.id.text_velocity);
+        textTime = (TextView) findViewById(R.id.text_time);
+        answer = (TextView) findViewById(R.id.result);
+        editAngle = (EditText) findViewById(R.id.edit_angle);
+        editVelocity = (EditText) findViewById(R.id.edit_velocity);
+        editTime = (EditText) findViewById(R.id.edit_time);
+        calculate = (Button) findViewById(R.id.calculate);
+
+        calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 double angle, velocity, time, x, y;
-                angle = Math.toRadians(Double.parseDouble(edit1.getText().toString()));
-                velocity = Double.parseDouble(edit2.getText().toString());
-                time = Double.parseDouble(edit3.getText().toString());
-                x = Math.sin(angle) * velocity * time;
-                y = Math.cos(angle) * velocity * time - (.5 * 9.8 * time * time);
-                text4.setText("x=" + x + ",y=" + y);
+                angle = Double.parseDouble(editAngle.getText().toString());
+                velocity = Double.parseDouble(editVelocity.getText().toString());
+                time = Double.parseDouble(editTime.getText().toString());
+                Projectile proj = new Projectile(angle, velocity, time);
+                x = proj.getX();
+                y = proj.getY();
+                answer.setText("x=" + x + ",z=" + y);
             }
         });
     }
