@@ -1,5 +1,6 @@
 package shapiro.projectile;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -49,16 +50,21 @@ public class MainActivity extends AppCompatActivity {
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double angle, velocity, time, x, y;
-                angle = Double.parseDouble(editAngle.getText().toString());
-                velocity = Double.parseDouble(editVelocity.getText().toString());
-                time = Double.parseDouble(editTime.getText().toString());
-                Projectile proj = new Projectile(angle, velocity, time);
-                x = proj.getX();
-                y = proj.getY();
-                answer.setText("x=" + x + ",z=" + y);
+                showProjectileAnswer();
             }
         });
+    }
+
+    private void showProjectileAnswer() {
+        Intent intent = new Intent(this, AnswerActivity.class);
+        double angle, velocity, time, x, y;
+        angle = Double.parseDouble(editAngle.getText().toString());
+        velocity = Double.parseDouble(editVelocity.getText().toString());
+        time = Double.parseDouble(editTime.getText().toString());
+        intent.putExtra("ANGLE", angle);
+        intent.putExtra("VELOCITY", velocity);
+        intent.putExtra("TIME", time);
+        startActivity(intent);
     }
 
     @Override
