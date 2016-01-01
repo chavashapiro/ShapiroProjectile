@@ -1,6 +1,7 @@
 package shapiro.projectile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,15 +26,23 @@ public class MainActivity extends AppCompatActivity {
     private Button calculate;
     private TextView answer;
 
-    /**@Override
+    private SharedPreferences preferences;
+
+    @Override
     protected void onResume() {
         super.onResume();
-    }**/
+
+        editAngle.setText(preferences.getString("ANGLE",""));
+        editVelocity.setText(preferences.getString("VELOCITY",""));
+        editTime.setText(preferences.getString("TIME",""));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        preferences = this.getSharedPreferences("DEFAULT", MODE_PRIVATE);
 
         projectileImage = (ImageView) findViewById(R.id.projectile_image);
         Picasso.with(this).load("http://www.splung.com/kinematics/images/projectiles/motorbike-parabola.jpg").into(projectileImage);
@@ -64,7 +73,20 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("ANGLE", angle);
         intent.putExtra("VELOCITY", velocity);
         intent.putExtra("TIME", time);
+
         startActivity(intent);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("ANGLE", editAngle.getText().toString());
+        editor.putString("VELOCITY", editVelocity.getText().toString());
+        editor.putString("TIME", editTime.getText().toString());
+        
+        editor.apply();
     }
 
     @Override
